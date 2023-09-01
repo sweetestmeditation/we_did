@@ -1,0 +1,17 @@
+# .gitignore
+
+# Ignore virtual environment
+venv/
+
+# Ignore database files
+db.sqlite3
+
+# Ignore local settings (if you have a settings_local.py)
+tasks/settings_local.py
+
+# Ignore other generated files
+__pycache__/
+*.pyc
+*.pyo
+*.db
+*.sqlite3

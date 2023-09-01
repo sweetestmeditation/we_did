@@ -1,7 +1,9 @@
+from .views import CustomLoginView  # Import the CustomLoginView
 from django.urls import path
 from .views import TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDeleteView  # Make sure the import is correct
 
 urlpatterns = [
+    path('login/', CustomLoginView.as_view(), name='login'),
     path('', TaskList.as_view(), name='task-list'),
     path('task/<int:pk>/', TaskDetail.as_view(), name='task-detail'),
     path('create-task/', TaskCreate.as_view(), name='task-create'),
