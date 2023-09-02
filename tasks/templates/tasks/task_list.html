@@ -2,33 +2,48 @@
 <html>
 <head>
     {% if request.user.is_authenticated %}
-        <p>{{request.user}}</p>
-        <a href=''>Logout</a>
+        <p>{{ request.user }}</p>
+        <a href="{% url 'logout' %}">Logout</a>
     {% else %}
-    <a href='{% url 'login' %}'>Login</a>
+        <a href='{% url 'login' %}'>Login</a>
     {% endif %}
     <title>Task List</title>
-    <a href="{% url 'task-create'%}">Add Task</a>
+    <a href="{% url 'task-create' %}">Add Task</a>
+
+    <!-- Add the search form here -->
+    <form method="GET" action="{% url 'task-list' %}">
+        <input type="text" name="search-area" placeholder="Search">
+        <button type="submit">Search</button>
+    </form>
 </head>
 <body>
-
-
     <h1>Task List</h1>
-    <table>
-        <tr>
-            <th></th>
-            <th></th>
-        </tr>
-        {% for task in tasks %}
-        <tr>
-            <td>{{ task.title }}</td>
-            <td><a href="{% url 'task-detail' task.id %}">View</a></td>
-            <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
-            <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
-        </tr>
-        {% empty %}
+
+    {% for task in tasks %}
+    <div class="task">
+        <h3>{{ task.title }}</h3>
+        <p>{{ task.description }}</p>
+        {% if task.archived %}
+            <form action="{% url 'unarchive-task' task.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Unarchive</button>
+            </form>
+        {% else %}
+            <form action="{% url 'archive-task' task.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Archive</button>
+            </form>
+        {% endif %}
+        <a href="{% url 'task-detail' task.id %}">View</a>
+        <a href="{% url 'task-update' task.id %}">Edit</a>
+        <a href="{% url 'task-delete' task.id %}">Delete</a>
+    </div>
+    {% empty %}
+    <!-- This message is displayed when tasks are empty -->
+    <div>
         <h3>No items in list</h3>
-        {% endfor %}
-    </table>
+    </div>
+    {% endfor %}
 </body>
 </html>
+

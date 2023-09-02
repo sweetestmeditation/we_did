@@ -1,1 +1,36 @@
-<h1>Task: {{object}}</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Detail</title>
+</head>
+<body>
+    <h1>Task: {{ task.title }}</h1>
+
+    <p>Description: {{ task.description }}</p>
+
+    <p>Completion Status: {% if task.complete %}Completed{% else %}Incomplete{% endif %}</p>
+
+    <!-- Display Task Attachments -->
+    {% if task.taskattachment_set.all %}
+    <h2>Attachments:</h2>
+    <ul>
+        {% for attachment in task.taskattachment_set.all %}
+        <li>
+            <a href="{{ attachment.attachment.url }}" target="_blank">{{ attachment.attachment.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Task Attachment Form -->
+    <h2>Add Attachment:</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ attachment_form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    <!-- Back to Task List -->
+    <a href="{% url 'task-list' %}">Back to Task List</a>
+</body>
+</html>
