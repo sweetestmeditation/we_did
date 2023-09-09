@@ -8,8 +8,9 @@ from .views import (
     TaskDeleteView,
     CustomLoginView,
     RegisterPage,
-    archive_task,  # Import the archive_task view
-    unarchive_task,  # Import the unarchive_task view
+    ArchiveTaskList,
+    ArchiveTask,  # Import the archive_task view
+    # UnarchiveTask,  # Import the unarchive_task view
 )
 
 urlpatterns = [
@@ -21,7 +22,9 @@ urlpatterns = [
     path('create-task/', TaskCreate.as_view(), name='task-create'),
     path('update-task/<int:pk>/', TaskUpdate.as_view(), name='task-update'),
     path('delete-task/<int:pk>/', TaskDeleteView.as_view(), name='task-delete'),
-    path('archive/', ArchiveTaskList.as_view(), name='archive-task-list'),  # Add this line
+    path('archive-task-list/', ArchiveTaskList.as_view(), name='archive-task-list'),
+    path('archive-task/<int:task_id>/', ArchiveTask.as_view(), name='archive-task'),
+
 ]
 
 
